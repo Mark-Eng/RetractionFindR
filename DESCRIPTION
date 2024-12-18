@@ -1,0 +1,16 @@
+Package: RetractionCheckR
+Title: Checks RIS files for retracted articles
+Version: 0.0.0.9000
+Authors@R: 
+    person("Mark", "Engelbert", , "mengelbert@3ieimpact.org", role = c("aut", "cre"),
+           comment = c(ORCID = "0000-0002-3665-1257"))
+Description: Checks DOIs and titles of references in an RIS file against retracted articles in the RetractionWatch database (RetractionWatch dataset updated daily).
+License: MIT + file LICENSE
+Encoding: UTF-8
+Language: es
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.3.2
+Imports: 
+    dplyr,
+    stringr,
+    synthesisr
