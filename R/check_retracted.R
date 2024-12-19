@@ -33,7 +33,7 @@ check_retracted <- function(refs) {
   
   # retracted<-read.csv("https://api.labs.crossref.org/data/retractionwatch?name@email.org")
   
-  retracted <- read.csv("https://raw.githubusercontent.com/Mark-Eng/bibfix/refs/heads/master/data/retraction_watch.csv") 
+  retracted <- read.csv("https://raw.githubusercontent.com/Mark-Eng/RetractionFindR/refs/heads/main/data/retraction_watch.csv") 
   
   # Create clean title column for title matching
   retracted <- retracted %>% 
