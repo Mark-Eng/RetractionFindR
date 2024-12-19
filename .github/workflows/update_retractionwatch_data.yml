@@ -8,6 +8,9 @@ on:
     - cron: "45 16 * * *"
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 jobs:
   generate-data:
     runs-on: ${{ matrix.config.os }}
