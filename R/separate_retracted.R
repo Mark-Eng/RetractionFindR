@@ -6,6 +6,7 @@ library(dplyr)
 #' @param df A dataframe object of bibliographic data, including column with a binary indicator of whether the article has been retracted (according to the RetractionWatch database).
 #'
 #' @returns A list of dataframes, one containing only retracted articles and one containing only non-retracted ones.
+#' @importFrom dplyr filter
 #' @export
 #'
 #' @examples Add later

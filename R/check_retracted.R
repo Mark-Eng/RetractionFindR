@@ -1,13 +1,12 @@
 
-library(synthesisr)
-library(dplyr)
-library(stringr)
-
 #' check_retracted
 #'
 #' @param refs A dataframe object containing bibliographic references.
 #'
 #' @returns A dataframe object of references with a column indicating whether the article has been retracted (according to the RetractionWatch database).
+#' @importFrom dplyr mutate case_when filter
+#' @importFrom stringr str_remove_all str_to_lower
+#' @importFrom synthesisr read_refs
 #' @export
 #'
 #' @examples Add later.
