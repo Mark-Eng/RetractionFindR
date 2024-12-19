@@ -13,7 +13,7 @@ check_retracted(refs)
 A dataframe object of references with a column indicating whether the article has been retracted (according to the RetractionWatch database).
 }
 \description{
-check_retracted
+Checks a list of references for DOIs/titles that appear in the RetractionWatch database(indicated in an "isRetracted" column).
 }
 \examples{
 Add later.
