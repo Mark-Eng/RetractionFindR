@@ -40,7 +40,7 @@ check_retracted <- function(refs) {
     mutate(clean_title = str_remove_all(str_to_lower(Title),  "[[:punct:]]"))
   
   # Find retracted articles by DOI/title
-  refs <- refs |> 
+  refs <- refs %>% 
     mutate(clean_title = str_remove_all(str_to_lower(title),  "[[:punct:]]")) %>%  
     mutate(isRetracted = case_when(
       doi %in% c(retracted$OriginalPaperDOI, retracted$RetractionDOI) ~ 1,
