@@ -3,6 +3,7 @@
 export(build_ris)
 export(check_retracted)
 export(separate_retracted)
+importFrom(dplyr,"%>%")
 importFrom(dplyr,case_when)
 importFrom(dplyr,filter)
 importFrom(dplyr,mutate)

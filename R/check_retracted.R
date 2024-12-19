@@ -4,7 +4,7 @@
 #' @param refs A dataframe object containing bibliographic references.
 #'
 #' @returns A dataframe object of references with a column indicating whether the article has been retracted (according to the RetractionWatch database).
-#' @importFrom dplyr mutate case_when filter
+#' @importFrom dplyr mutate case_when filter %>% 
 #' @importFrom stringr str_remove_all str_to_lower
 #' @importFrom synthesisr read_refs
 #' @export
@@ -36,12 +36,12 @@ check_retracted <- function(refs) {
   retracted <- read.csv("https://raw.githubusercontent.com/Mark-Eng/bibfix/refs/heads/master/data/retraction_watch.csv") 
   
   # Create clean title column for title matching
-  retracted <- retracted |>
+  retracted <- retracted %>% 
     mutate(clean_title = str_remove_all(str_to_lower(Title),  "[[:punct:]]"))
   
   # Find retracted articles by DOI/title
-  refs <- read_refs("C:/Users/ME/Desktop/R/bibfix/inst/shiny-examples/bibfix/ris_files/Mark sample refs.ris") %>% 
-    mutate(clean_title = str_remove_all(str_to_lower(title),  "[[:punct:]]")) %>% 
+  refs <- refs |> 
+    mutate(clean_title = str_remove_all(str_to_lower(title),  "[[:punct:]]")) %>%  
     mutate(isRetracted = case_when(
       doi %in% c(retracted$OriginalPaperDOI, retracted$RetractionDOI) ~ 1,
       clean_title %in% retracted$clean_title ~ 1,
