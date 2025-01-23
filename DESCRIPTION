@@ -14,3 +14,7 @@ Imports:
     dplyr,
     stringr,
     synthesisr
+Suggests: 
+    knitr,
+    rmarkdown
+VignetteBuilder: knitr
