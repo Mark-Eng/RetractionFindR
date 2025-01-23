@@ -1,0 +1,45 @@
+---
+title: "basic_workflow"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{basic_workflow}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup, message=FALSE, warning=FALSE}
+library(retractionfindr)
+library(tidyverse)
+```
+
+
+Once you have your search (from Web of Science, PubMed, etc.), you can use `retractionfindr` functions to search for retractions. Export your search as a `.ris` file and use the `read_refs` function to read the file. Then use the `check_retracted` function to search for retractions.
+
+This returns a list of the number of retractions and the total number of records in the file, as well as a dataframe with all the references and a column indicating whether the reference is retracted or not. 
+
+```{r load the data}
+# First you need to upload a RIS file
+# We use the read_refs function from synthesisr to read the RIS file
+refs<-synthesisr::read_refs(system.file("extdata", "example.ris", package = "retractionfindr"))
+
+out<-check_retracted(refs)
+
+out$n_total
+out$n_retracted
+
+```
+
+You may wish to separate the retracted and non-retracted articles. You can do this using the `separate_retracted` function.
+
+```{r separate the retracted articles}
+sep_refs<-separate_retracted(out$refs)
+sep_refs[1] # retracted 
+#sep_refs[2] # non-retracted
+```

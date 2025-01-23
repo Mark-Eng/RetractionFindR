@@ -54,6 +54,7 @@ check_retracted <- function(refs) {
   
   # Return results
   output <- list(
+    refs=refs,
     n_retracted = n_retracted,
     n_total = n_total
   )
