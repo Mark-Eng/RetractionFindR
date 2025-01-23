@@ -8,6 +8,11 @@ on:
     - cron: "03 15 * * *"
   workflow_dispatch:
 
+on:
+  push:
+    paths-ignore:
+      - ".github/workflows/**"
+
 permissions:
   contents: write
 
