@@ -5,7 +5,7 @@
 
 on:
   schedule:
-    - cron: "50 14 * * *"
+    - cron: "03 15 * * *"
   workflow_dispatch:
 
 permissions:
@@ -72,8 +72,8 @@ jobs:
     git commit -am "add data" || echo "No changes to commit"
     git push -f origin main
 
-- name: Show Git Log
-  run: git log --oneline --graph -10
+      - name: Show Git Log
+        run: git log --oneline --graph -10
 
       - name: Session info
         run: |
