@@ -70,10 +70,7 @@ jobs:
     git pull --rebase origin main || echo "Nothing to pull"
     git add --all
     git commit -am "add data" || echo "No changes to commit"
-    git push -f origin main
-
-      - name: Show Git Log
-        run: git log --oneline --graph -10
+    git push origin main
 
       - name: Session info
         run: |
