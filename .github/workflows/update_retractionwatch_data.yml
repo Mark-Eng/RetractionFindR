@@ -64,13 +64,16 @@ jobs:
         shell: Rscript {0} 
         
       - name: Commit files
-        run: |
-          git config --local user.email "actions@github.com"
-          git config --local user.name "GitHub Actions"
-          git pull --rebase origin main
-          git add --all
-          git commit -am "add data" || echo "No changes to commit"
-          git push origin main
+  run: |
+    git config --local user.email "actions@github.com"
+    git config --local user.name "GitHub Actions"
+    git pull --rebase origin main || echo "Nothing to pull"
+    git add --all
+    git commit -am "add data" || echo "No changes to commit"
+    git push -f origin main
+
+- name: Show Git Log
+  run: git log --oneline --graph -10
 
       - name: Session info
         run: |
