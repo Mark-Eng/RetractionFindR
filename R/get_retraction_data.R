@@ -10,4 +10,4 @@ retwatch_db<-read.csv(url)
 write.csv(retwatch_db,  file = 'data/retraction_watch.csv')
 
 # Add a file describing when the data were last updated
-cat("Retraction Watch data last retrieved on ", Sys.time(), file = "data/latest_update.txt")
+cat("Retraction Watch data last retrieved on ", format(Sys.time(), "%Y-%m-%d %H:%M:%S"), file = "data/latest_update.txt")
