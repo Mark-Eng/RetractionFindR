@@ -7,9 +7,6 @@ on:
   schedule:
     - cron: "00 00 * * *"
   workflow_dispatch:
-  push:
-    paths-ignore:
-      - ".github/workflows/**"
 
 permissions:
   contents: write
