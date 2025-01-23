@@ -2,7 +2,6 @@
 # https://github.com/simonpcouch/scheduled-commit-action/blob/master/.github/workflows/schedule-commit.yaml
 # https://www.simonpcouch.com/blog/2020-12-27-r-github-actions-commit/ (thanks Simon!)
 # Runs daily because seems it is updated daily https://gitlab.com/crossref/retraction-watch-data
-
 on:
   schedule:
     - cron: "0 0 * * *"
