@@ -71,7 +71,7 @@ jobs:
           git merge origin/main
           git add --all
           git commit -am "add data" || echo "No changes to commit"
-          git push 
+          git push origin main
 
       - name: Session info
         run: |
