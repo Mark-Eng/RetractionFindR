@@ -6,13 +6,22 @@ library(synthesisr)
 options(shiny.maxRequestSize = 30 * 1024^2) # Set max file size to 30MB
 
 ui <- fluidPage(
-  titlePanel("RetractionFindR"),
+  titlePanel(
+    tagList(
+      icon("search", style= "color:aqua"),  # Magnifying glass icon
+      "RetractionFindR"
+    )
+  ),
   
   sidebarLayout(
     sidebarPanel(
       fileInput("ris_file", "Upload .ris file", accept = ".ris"),
       actionButton("check_btn", "Check for Retractions"),
       br(), br(),
+      selectInput("file_format", "Select download format:",
+                  choices = c("CSV" = "csv", "RIS" = "ris"),
+                  selected = "csv"),
+      br(),br(),
       downloadButton("download_retracted", "Download Retracted"),
       downloadButton("download_nonretracted", "Download Non-Retracted")
     ),
@@ -58,16 +67,39 @@ server <- function(input, output, session) {
   })
   
   output$download_retracted <- downloadHandler(
-    filename = function() "retracted_references.csv",
-    content = function(file) {
-      write.csv(separated()[[1]], file, row.names = FALSE)
-    }
-  )
+      filename = function() {
+        if (input$file_format == "ris") {
+          "retracted_references.ris"
+        } else {
+          "retracted_references.csv"
+        }
+      },
+      content = function(file) {
+        data <- separated()[[1]]
+        if (input$file_format == "ris") {
+          synthesisr::write_refs(data, format = "ris", file = file)
+        } else {
+          write.csv(data, file, row.names = FALSE)
+        }
+      }
+    )
+    
   
   output$download_nonretracted <- downloadHandler(
-    filename = function() "nonretracted_references.csv",
+    filename = function() {
+      if (input$file_format == "ris") {
+        "non_retracted_references.ris"
+      } else {
+        "non_retracted_references.csv"
+      }
+    },
     content = function(file) {
-      write.csv(separated()[[2]], file, row.names = FALSE)
+      data <- separated()[[2]]
+      if (input$file_format == "ris") {
+        synthesisr::write_refs(data, format = "ris", file = file)
+      } else {
+        write.csv(data, file, row.names = FALSE)
+      }
     }
   )
 }
