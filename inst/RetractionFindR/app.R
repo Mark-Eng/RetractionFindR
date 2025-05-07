@@ -2,30 +2,28 @@ library(shiny)
 library(retractionfindr)
 library(tidyverse)
 library(synthesisr)
-
 options(shiny.maxRequestSize = 30 * 1024^2) # Set max file size to 30MB
 
 ui <- fluidPage(
   titlePanel(
     tagList(
-      icon("search", style= "color:aqua"),  # Magnifying glass icon
+      icon("search", style = "color:aqua"), # Magnifying glass icon
       "RetractionFindR"
     )
   ),
-  
   sidebarLayout(
     sidebarPanel(
       fileInput("ris_file", "Upload .ris file", accept = ".ris"),
       actionButton("check_btn", "Check for Retractions"),
       br(), br(),
       selectInput("file_format", "Select download format:",
-                  choices = c("CSV" = "csv", "RIS" = "ris"),
-                  selected = "csv"),
-      br(),br(),
+        choices = c("CSV" = "csv", "RIS" = "ris"),
+        selected = "csv"
+      ),
+      br(), br(),
       downloadButton("download_retracted", "Download Retracted"),
       downloadButton("download_nonretracted", "Download Non-Retracted")
     ),
-    
     mainPanel(
       verbatimTextOutput("summary"),
       tabsetPanel(
@@ -39,52 +37,52 @@ ui <- fluidPage(
 server <- function(input, output, session) {
   results <- reactiveVal(NULL)
   separated <- reactiveVal(NULL)
-  
+
   observeEvent(input$check_btn, {
     req(input$ris_file)
-    
+
     refs <- synthesisr::read_refs(input$ris_file$datapath)
     out <- check_retracted(refs)
-    
+
     results(out)
     separated(separate_retracted(out$refs))
   })
-  
+
   output$summary <- renderPrint({
     req(results())
     cat("Total references:", results()$n_total, "\n")
     cat("Retracted references:", results()$n_retracted, "\n")
   })
-  
+
   output$retracted_table <- renderTable({
     req(separated())
     separated()[[1]]
   })
-  
+
   output$nonretracted_table <- renderTable({
     req(separated())
     separated()[[2]]
   })
-  
+
   output$download_retracted <- downloadHandler(
-      filename = function() {
-        if (input$file_format == "ris") {
-          "retracted_references.ris"
-        } else {
-          "retracted_references.csv"
-        }
-      },
-      content = function(file) {
-        data <- separated()[[1]]
-        if (input$file_format == "ris") {
-          synthesisr::write_refs(data, format = "ris", file = file)
-        } else {
-          write.csv(data, file, row.names = FALSE)
-        }
+    filename = function() {
+      if (input$file_format == "ris") {
+        "retracted_references.ris"
+      } else {
+        "retracted_references.csv"
       }
-    )
-    
-  
+    },
+    content = function(file) {
+      data <- separated()[[1]]
+      if (input$file_format == "ris") {
+        synthesisr::write_refs(data, format = "ris", file = file)
+      } else {
+        write.csv(data, file, row.names = FALSE)
+      }
+    }
+  )
+
+
   output$download_nonretracted <- downloadHandler(
     filename = function() {
       if (input$file_format == "ris") {
