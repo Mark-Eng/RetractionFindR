@@ -2,7 +2,12 @@
 
 export(build_ris)
 export(check_retracted)
+export(runShiny)
 export(separate_retracted)
+import(shiny)
+import(shinyBS)
+import(synthesisr)
+import(tidyverse)
 importFrom(dplyr,"%>%")
 importFrom(dplyr,case_when)
 importFrom(dplyr,filter)
