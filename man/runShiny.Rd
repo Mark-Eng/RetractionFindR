@@ -4,10 +4,7 @@
 \alias{runShiny}
 \title{A wrapper function to run the Shiny App}
 \usage{
-runShiny(app = "RetractionFindR")
-}
-\arguments{
-\item{app}{RetractionFindR}
+runShiny()
 }
 \value{
 A shiny app

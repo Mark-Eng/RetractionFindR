@@ -12,7 +12,7 @@
 runShiny <- function(){
   
   # find and launch the app
-  appDir <- system.file("RetractionFindR", package = "RetractionFindR")
+  appDir <- system.file("RetractionFindR", package = "retractionfindr")
   
   shiny::runApp(appDir, display.mode = "normal")
 }
