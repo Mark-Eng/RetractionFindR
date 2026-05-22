@@ -7,13 +7,17 @@
 count_retracted(df)
 }
 \arguments{
-\item{df}{A dataframe with an "is_retracted" column indicating whether a reference has been retracted}
+\item{df}{A dataframe with an \code{is_retracted} column (1 = retracted, 0 = not).}
 }
 \value{
-Text reporting the number of retracted references and total references
+A named numeric vector with elements \code{n_retracted} and
+\code{n_total}. Prints readably at the console; individual values can be
+accessed by name (e.g. \code{counts["n_retracted"]}) for use in Shiny
+\code{valueBox} or other programmatic contexts.
 }
 \description{
-count_retracted
+Counts retracted and total references in a dataframe produced
+by \code{check_retracted()}.
 }
 \examples{
 Add later
