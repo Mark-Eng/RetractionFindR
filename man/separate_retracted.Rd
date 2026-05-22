@@ -4,13 +4,19 @@
 \alias{separate_retracted}
 \title{separate_retracted}
 \usage{
-separate_retracted(df)
+separate_retracted(df, write_ris = FALSE)
 }
 \arguments{
-\item{df}{A dataframe object of bibliographic data, including column with a binary indicator of whether the article has been retracted (according to the RetractionWatch database).}
+\item{df}{A dataframe object of bibliographic data, including an \code{is_retracted}
+column as produced by \code{check_retracted()}.}
+
+\item{write_ris}{Logical. If \code{TRUE}, writes the retracted articles to a RIS file
+in the working directory. Default \code{FALSE}. Set to \code{FALSE} when using inside
+a Shiny app (handle file export via \code{downloadHandler} instead).}
 }
 \value{
-A list of dataframes, one containing only retracted articles and one containing only non-retracted ones.
+A named list with two dataframes: \code{$retracted} (articles where
+\code{is_retracted == 1}) and \code{$non_retracted} (all others).
 }
 \description{
 Separates a list of references into retracted and non-retracted articles.

@@ -4,16 +4,26 @@
 \alias{check_retracted}
 \title{check_retracted}
 \usage{
-check_retracted(refs)
+check_retracted(refs, retraction_data = NULL)
 }
 \arguments{
-\item{refs}{A dataframe object containing bibliographic references.}
+\item{refs}{A dataframe containing bibliographic references. Any columns not
+required for matching are preserved in the returned dataframe.}
+
+\item{retraction_data}{Optional. A dataframe as returned by
+\code{load_retraction_data()}. If \code{NULL} (default), the bundled local
+copy of the RetractionWatch data is loaded automatically. Pass a pre-loaded
+dataframe to avoid reloading on every call — recommended for Shiny apps,
+where \code{load_retraction_data()} should be called once at startup.}
 }
 \value{
-A dataframe object of references with a column indicating whether the article has been retracted (according to the RetractionWatch database).
+The input dataframe with an additional \code{is_retracted} column
+(1 if the article appears in RetractionWatch, 0 otherwise). All original
+columns are preserved.
 }
 \description{
-Checks a list of references for DOIs/titles that appear in the RetractionWatch database(indicated in an "isRetracted" column).
+Checks a list of references for DOIs/titles that appear in the RetractionWatch
+database, adding an \code{is_retracted} column (1 = retracted, 0 = not retracted).
 }
 \examples{
 Add later.
