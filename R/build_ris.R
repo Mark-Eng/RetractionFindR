@@ -50,6 +50,8 @@ build_ris <- function(data,
   if(is.null(data$M1) == TRUE){data$M1 <- NA}
   if(is.null(data$database) == TRUE){data$database <- NA}
   if(is.null(data$AN) == TRUE){data$AN <- NA}
+  if(is.null(data$retraction_nature) == TRUE){data$retraction_nature <- NA}
+  if(is.null(data$retraction_reason) == TRUE){data$retraction_reason <- NA}
   
   #replace NAs with ''
   data[is.na(data)==TRUE]=''
@@ -73,6 +75,8 @@ build_ris <- function(data,
                       'M1  - ', data$M1, '\n',
                       'DB  - ', data$database, '\n',
                       'AN  - ', data$AN, '\n',
+                      'U1  - ', data$retraction_nature, '\n',
+                      'U2  - ', data$retraction_reason, '\n',
                       'ER  - '),
                collapse = '\n')
   

@@ -12,8 +12,11 @@
 #'   dataframe to avoid reloading on every call — recommended for Shiny apps,
 #'   where \code{load_retraction_data()} should be called once at startup.
 #'
-#' @returns The input dataframe with an additional \code{is_retracted} column
-#'   (1 if the article appears in RetractionWatch, 0 otherwise). All original
+#' @returns The input dataframe with three additional columns: \code{is_retracted}
+#'   (1 if the article appears in RetractionWatch, 0 otherwise),
+#'   \code{retraction_nature} (e.g. "Retraction", "Expression of Concern"), and
+#'   \code{retraction_reason} (semicolon-separated reasons from RetractionWatch).
+#'   Both lookup columns are \code{NA} for non-retracted records. All original
 #'   columns are preserved.
 #' @importFrom dplyr mutate case_when %>%
 #' @importFrom stringr str_remove_all str_to_lower
@@ -46,6 +49,16 @@ check_retracted <- function(refs, retraction_data = NULL) {
       clean_title %in% retraction_data$clean_title ~ 1,
       TRUE ~ 0
     ))
+
+  # Look up RetractionNature and Reason for matched records (same priority order as above)
+  idx <- match(refs$doi, retraction_data$OriginalPaperDOI)
+  unmatched <- is.na(idx)
+  idx[unmatched] <- match(refs$doi[unmatched], retraction_data$RetractionDOI)
+  unmatched <- is.na(idx)
+  idx[unmatched] <- match(refs$clean_title[unmatched], retraction_data$clean_title)
+
+  refs$retraction_nature <- retraction_data$RetractionNature[idx]
+  refs$retraction_reason <- retraction_data$Reason[idx]
 
   refs$clean_title <- NULL
 

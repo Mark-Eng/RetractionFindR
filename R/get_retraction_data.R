@@ -2,10 +2,11 @@
 #'
 #' @description Reads the RetractionWatch CSV and returns a trimmed, matching-ready
 #'   dataframe containing only the columns needed for retraction checking
-#'   (\code{Title}, \code{OriginalPaperDOI}, \code{RetractionDOI}) plus a
-#'   pre-computed \code{clean_title} column. Loading only these columns keeps
-#'   the in-memory footprint small (~10 MB vs ~400 MB for the full CSV), which
-#'   matters for Shiny deployments.
+#'   (\code{Title}, \code{OriginalPaperDOI}, \code{RetractionDOI},
+#'   \code{RetractionNature}, \code{Reason}) plus a pre-computed
+#'   \code{clean_title} column. Loading only these columns keeps the in-memory
+#'   footprint small relative to the full CSV (~400 MB), which matters for
+#'   Shiny deployments.
 #'
 #' @param path Path or URL to the RetractionWatch CSV. Defaults to the bundled
 #'   local copy included with the package. To always use the latest data without
@@ -15,7 +16,8 @@
 #'   \code{check_retracted()} via its \code{retraction_data} argument.
 #'
 #' @returns A dataframe with columns \code{Title}, \code{OriginalPaperDOI},
-#'   \code{RetractionDOI}, and \code{clean_title}.
+#'   \code{RetractionDOI}, \code{RetractionNature}, \code{Reason}, and
+#'   \code{clean_title}.
 #' @importFrom stringr str_remove_all str_to_lower
 #' @export
 #'
@@ -25,7 +27,7 @@ load_retraction_data <- function(path = NULL) {
     path <- system.file("data", "retraction_watch.csv", package = "retractionfindr")
   }
 
-  cols_needed <- c("Title", "OriginalPaperDOI", "RetractionDOI")
+  cols_needed <- c("Title", "OriginalPaperDOI", "RetractionDOI", "RetractionNature", "Reason")
   header <- names(read.csv(path, nrow = 0))
   col_classes <- ifelse(header %in% cols_needed, NA, "NULL")
 
