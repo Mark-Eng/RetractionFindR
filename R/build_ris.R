@@ -4,11 +4,11 @@
 #' fields corresponding to a minimum information for 
 #' deduplication and record identification from external 
 #' API sources (e.g. CrossRef). 
-#' @param input A dataframe object containing bibliographic 
-#' data. Each item is an independent line in the 
-#' dataframe. The dataframe must contain 
-#' columns named as follows: 'authors', 'year', 'title', 
-#' 'source', 'volume', 'issue', 'start_page', 'end_page', 
+#' @param data A dataframe object containing bibliographic
+#' data. Each item is an independent line in the
+#' dataframe. The dataframe must contain
+#' columns named as follows: 'authors', 'year', 'title',
+#' 'source', 'volume', 'issue', 'start_page', 'end_page',
 #' and 'doi'.
 #' @param save Logical argument to specify whether the output 
 #' file should be saved as an .ris file.
@@ -71,7 +71,7 @@ build_ris <- function(data,
                       'PB  - ', data$publisher, '\n',
                       'N1  - ', data$notes, '\n',
                       'M1  - ', data$M1, '\n',
-                      'DB  - ', data$DB, '\n',
+                      'DB  - ', data$database, '\n',
                       'AN  - ', data$AN, '\n',
                       'ER  - '),
                collapse = '\n')
