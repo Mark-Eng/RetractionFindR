@@ -9,7 +9,7 @@ options(shiny.maxRequestSize = 30 * 1024^2)
 # Load once at startup and share across all user sessions
 retraction_db <- load_retraction_data()
 
-cols_to_show <- c(
+cols_to_show_retracted <- c(
   "title",
   "author",
   "year",
@@ -18,6 +18,14 @@ cols_to_show <- c(
   "is_retracted",
   "retraction_nature",
   "retraction_reason"
+)
+
+cols_to_show_nonretracted <- c(
+  "title",
+  "author",
+  "year",
+  "journal",
+  "doi"
 )
 
 ui <- fluidPage(
@@ -180,7 +188,7 @@ server <- function(input, output, session) {
     {
       req(sep())
       df <- sep()$retracted
-      df[intersect(cols_to_show, names(df))]
+      df[intersect(cols_to_show_retracted, names(df))]
     },
     options = list(scrollX = TRUE, pageLength = 10),
     rownames = FALSE
@@ -190,7 +198,7 @@ server <- function(input, output, session) {
     {
       req(sep())
       df <- sep()$non_retracted
-      df[intersect(cols_to_show, names(df))]
+      df[intersect(cols_to_show_nonretracted, names(df))]
     },
     options = list(scrollX = TRUE, pageLength = 10),
     rownames = FALSE
