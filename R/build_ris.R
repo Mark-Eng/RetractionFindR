@@ -53,13 +53,27 @@ build_ris <- function(data,
   if(is.null(data$retraction_nature) == TRUE){data$retraction_nature <- NA}
   if(is.null(data$retraction_reason) == TRUE){data$retraction_reason <- NA}
   
+  # Build AU lines per record: synthesisr stores authors as a list column (one
+  # character vector per record), so each author needs its own AU  - tag.
+  if (is.list(data$author)) {
+    au_lines <- vapply(data$author, function(authors) {
+      authors <- authors[!is.na(authors) & nzchar(authors)]
+      if (length(authors) == 0) return("")
+      paste(paste0("AU  - ", authors), collapse = "\n")
+    }, character(1))
+  } else {
+    data$author[is.na(data$author)] <- ""
+    au_lines <- ifelse(nzchar(data$author), paste0("AU  - ", data$author), "")
+  }
+  data$author <- NULL
+
   #replace NAs with ''
   data[is.na(data)==TRUE]=''
-  
+
   #create RIS file
   ris <- paste(paste0('\n',
                       'TY  - ', data$source_type, '\n',
-                      'AU  - ', data$author, '\n',
+                      au_lines, '\n',
                       'TI  - ', data$title, '\n',
                       'PY  - ', data$year, '\n',
                       'AB  - ', data$abstract, '\n',
