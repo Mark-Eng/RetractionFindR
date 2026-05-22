@@ -36,6 +36,12 @@ check_retracted <- function(refs, retraction_data = NULL) {
     if (is.null(refs[[col]])) refs[[col]] <- NA
   }
 
+  # Some RIS files use T2 for journal name; synthesisr parses that into 'source'.
+  # Fall back to 'source' for any records where journal is missing.
+  if (!is.null(refs$source)) {
+    refs$journal <- ifelse(is.na(refs$journal), refs$source, refs$journal)
+  }
+
   # Load retraction data if not supplied
   if (is.null(retraction_data)) {
     retraction_data <- load_retraction_data()
