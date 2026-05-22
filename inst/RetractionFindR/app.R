@@ -97,6 +97,9 @@ ui <- fluidPage(
                task of checking for retracted studies, but manual verification of flagged
                articles is recommended."
           )),
+          p(em(
+            "Also note that while you can download a RIS file with retracted articles removed, this may not preserve all of the information in the original RIS file you uploaded. You may wish to import the original RIS file to your reference manager/screening tool, then manually flag or remove any retracted articles identified by RetractionFindR."
+          )),
           p(
             "van Noorden R. More than 10,000 research papers were retracted in 2023—a new
             record. ",
