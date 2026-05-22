@@ -1,0 +1,12 @@
+Type: Shiny
+Package: RetractionFindRApp
+Title: RetractionFindR Shiny App
+Version: 1.0
+Imports:
+    DT,
+    retractionfindr,
+    shiny,
+    synthesisr,
+    waiter
+Remotes:
+    Mark-Eng/RetractionFindR
