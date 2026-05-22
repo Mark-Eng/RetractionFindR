@@ -9,8 +9,8 @@ License: MIT + file LICENSE
 Encoding: UTF-8
 Language: es
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.3.2
 Imports: 
     dplyr,
     stringr,
     synthesisr
+Config/roxygen2/version: 8.0.0
