@@ -1,0 +1,56 @@
+---
+title: "basic_workflow"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{basic_workflow}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup, message=FALSE, warning=FALSE}
+library(retractionfindr)
+library(synthesisr)
+```
+
+Once you have your search results (from Web of Science, PubMed, etc.), export them as a `.ris` file
+and use `synthesisr::read_refs()` to load them into R. Then pass the resulting dataframe to
+`check_retracted()` to flag any retracted articles.
+
+```{r check-for-retractions}
+refs <- synthesisr::read_refs(system.file("extdata", "example.ris", package = "retractionfindr"))
+
+checked <- check_retracted(refs)
+```
+
+`check_retracted()` returns the original dataframe with three new columns added: `is_retracted`
+(1 or 0), `retraction_nature` (e.g. "Retraction", "Expression of Concern"), and
+`retraction_reason` (semicolon-separated reasons from RetractionWatch).
+
+Use `count_retracted()` to get a quick summary:
+
+```{r count-results}
+count_retracted(checked)
+```
+
+To split the results into separate dataframes for retracted and non-retracted articles, use
+`separate_retracted()`:
+
+```{r separate-results}
+sep <- separate_retracted(checked)
+
+sep$retracted      # articles flagged as retracted
+sep$non_retracted  # all others
+```
+
+Set `write_ris = TRUE` to also save the retracted articles as a `.ris` file:
+
+```{r write-ris, eval=FALSE}
+separate_retracted(checked, write_ris = TRUE, filename = "retracted", path = "output/")
+```
