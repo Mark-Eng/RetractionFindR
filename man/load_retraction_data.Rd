@@ -16,15 +16,17 @@ In a Shiny app, call this once in \code{global.R} and pass the result to
 }
 \value{
 A dataframe with columns \code{Title}, \code{OriginalPaperDOI},
-\code{RetractionDOI}, and \code{clean_title}.
+\code{RetractionDOI}, \code{RetractionNature}, \code{Reason}, and
+\code{clean_title}.
 }
 \description{
 Reads the RetractionWatch CSV and returns a trimmed, matching-ready
 dataframe containing only the columns needed for retraction checking
-(\code{Title}, \code{OriginalPaperDOI}, \code{RetractionDOI}) plus a
-pre-computed \code{clean_title} column. Loading only these columns keeps
-the in-memory footprint small (~10 MB vs ~400 MB for the full CSV), which
-matters for Shiny deployments.
+(\code{Title}, \code{OriginalPaperDOI}, \code{RetractionDOI},
+\code{RetractionNature}, \code{Reason}) plus a pre-computed
+\code{clean_title} column. Loading only these columns keeps the in-memory
+footprint small relative to the full CSV (~400 MB), which matters for
+Shiny deployments.
 }
 \examples{
 Add later.

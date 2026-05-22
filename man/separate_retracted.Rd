@@ -4,15 +4,21 @@
 \alias{separate_retracted}
 \title{separate_retracted}
 \usage{
-separate_retracted(df, write_ris = FALSE)
+separate_retracted(df, write_ris = FALSE, filename = "retracted", path = NULL)
 }
 \arguments{
 \item{df}{A dataframe object of bibliographic data, including an \code{is_retracted}
 column as produced by \code{check_retracted()}.}
 
-\item{write_ris}{Logical. If \code{TRUE}, writes the retracted articles to a RIS file
-in the working directory. Default \code{FALSE}. Set to \code{FALSE} when using inside
-a Shiny app (handle file export via \code{downloadHandler} instead).}
+\item{write_ris}{Logical. If \code{TRUE}, writes the retracted articles to a RIS file.
+Default \code{FALSE}. Set to \code{FALSE} when using inside a Shiny app (handle
+file export via \code{downloadHandler} instead).}
+
+\item{filename}{Name of the output RIS file (without extension) when
+\code{write_ris = TRUE}. Default \code{"retracted"}.}
+
+\item{path}{Directory path for the output file when \code{write_ris = TRUE}.
+Default \code{NULL} saves to the working directory.}
 }
 \value{
 A named list with two dataframes: \code{$retracted} (articles where

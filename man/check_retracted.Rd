@@ -17,8 +17,11 @@ dataframe to avoid reloading on every call — recommended for Shiny apps,
 where \code{load_retraction_data()} should be called once at startup.}
 }
 \value{
-The input dataframe with an additional \code{is_retracted} column
-(1 if the article appears in RetractionWatch, 0 otherwise). All original
+The input dataframe with three additional columns: \code{is_retracted}
+(1 if the article appears in RetractionWatch, 0 otherwise),
+\code{retraction_nature} (e.g. "Retraction", "Expression of Concern"), and
+\code{retraction_reason} (semicolon-separated reasons from RetractionWatch).
+Both lookup columns are \code{NA} for non-retracted records. All original
 columns are preserved.
 }
 \description{
