@@ -7,6 +7,13 @@
 build_ris(data, save = FALSE, filename = "export", path = NULL)
 }
 \arguments{
+\item{data}{A dataframe object containing bibliographic
+data. Each item is an independent line in the
+dataframe. The dataframe must contain
+columns named as follows: 'authors', 'year', 'title',
+'source', 'volume', 'issue', 'start_page', 'end_page',
+and 'doi'.}
+
 \item{save}{Logical argument to specify whether the output
 file should be saved as an .ris file.}
 
@@ -14,13 +21,6 @@ file should be saved as an .ris file.}
 save = TRUE. Default is 'export'.}
 
 \item{path}{Path to which file should be saved.}
-
-\item{input}{A dataframe object containing bibliographic
-data. Each item is an independent line in the
-dataframe. The dataframe must contain
-columns named as follows: 'authors', 'year', 'title',
-'source', 'volume', 'issue', 'start_page', 'end_page',
-and 'doi'.}
 }
 \value{
 An RIS formatted text file saved to the desired
