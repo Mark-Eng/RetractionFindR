@@ -32,7 +32,7 @@ ui <- fluidPage(
       downloadButton("download_nonretracted", "Download Non-Retracted")
     ),
     mainPanel(
-      tabsetPanel(
+      tabsetPanel(id = "main_tabs",
         tabPanel("Introduction",
           h3("Welcome to RetractionFindR"),
           p("The number of retracted scientific publications has been increasing over the
@@ -100,12 +100,21 @@ server <- function(input, output, session) {
     w$show()
     on.exit(w$hide())
 
+    if (is.null(input$ris_file)) {
+      showModal(modalDialog(
+        title = "Error",
+        "An error occurred: please upload a RIS file.",
+        easyClose = TRUE
+      ))
+      return()
+    }
+
     tryCatch({
-      req(input$ris_file)
       refs   <- synthesisr::read_refs(input$ris_file$datapath)
       result <- check_retracted(refs, retraction_data = retraction_db)
       checked(result)
       sep(separate_retracted(result, write_ris = FALSE))
+      updateTabsetPanel(session, "main_tabs", selected = "Results")
     }, error = function(e) {
       showModal(modalDialog(
         title = "Error",
