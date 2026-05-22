@@ -9,8 +9,16 @@ options(shiny.maxRequestSize = 30 * 1024^2)
 # Load once at startup and share across all user sessions
 retraction_db <- load_retraction_data()
 
-cols_to_show <- c("title", "author", "year", "journal", "doi",
-                  "is_retracted", "retraction_nature", "retraction_reason")
+cols_to_show <- c(
+  "title",
+  "author",
+  "year",
+  "journal",
+  "doi",
+  "is_retracted",
+  "retraction_nature",
+  "retraction_reason"
+)
 
 ui <- fluidPage(
   useWaiter(),
@@ -21,63 +29,91 @@ ui <- fluidPage(
     sidebarPanel(
       fileInput("ris_file", "Upload .ris file", accept = ".ris"),
       actionButton("check_btn", "Check for Retractions", class = "btn-primary"),
-      br(), br(),
-      selectInput("file_format", "Download format:",
+      br(),
+      br(),
+      selectInput(
+        "file_format",
+        "Download format:",
         choices = c("RIS" = "ris", "CSV" = "csv"),
         selected = "ris"
       ),
       br(),
       downloadButton("download_retracted", "Download Retracted"),
-      br(), br(),
+      br(),
+      br(),
       downloadButton("download_nonretracted", "Download Non-Retracted")
     ),
     mainPanel(
-      tabsetPanel(id = "main_tabs",
-        tabPanel("Introduction",
+      tabsetPanel(
+        id = "main_tabs",
+        tabPanel(
+          "Introduction",
           h3("Welcome to RetractionFindR"),
-          p("The number of retracted scientific publications has been increasing over the
+          p(
+            "Academic journals sometimes retract articles they've published, usually because there were significant flaws in how the research was conducted, such that the results cannot be trusted. Sometimes papers are even retracted for being completely fabricated. When retracted articles are included in a literature review (particularly a systematic review), they can distort the review's conclusions about the current state of scientific knowledge."
+          ),
+          p(
+            "The number of retracted scientific publications has been increasing over the
             years. In 2023, more than 10,000 research papers were retracted, setting a new
-            record (Van Noorden 2023). Some suggest this is only the 'tip of the iceberg'
-            in terms of fraudulent research that is published each year. The escalation of
-            papers that are bogus has escalated, in part fueled by the work of 'paper mills'
-            (businesses selling authorship on fabricated papers)."),
-          p("These present a particular threat to the reliability of systematic reviews,
-            which aim to identify and synthesise all relevant evidence. Including fraudulent
-            research will undermine the credibility of the review."),
-          p("Identifying problematic studies is the goal of the INSPECT-SR tool, which aims
-            to support reviewers in identifying studies that lack veracity. One requirement
-            of the tool is that reviewers locate retracted studies."),
-          p("The methods of handling retracted studies are variable across different
-            databases. A retracted study may remain on a database, and while a note may be
-            added, this might not be obvious to the reviewer."),
-          p("This tool enables reviewers to readily identify those studies that have been
-            retracted."),
+            record (van Noorden 2023). Unfortunately, retracted articles are not always easy to identify. The methods of handling retracted studies vary across databases, and retracted articles often remain indexed in databases. The database record may include a note flagging the retraction, but this might not be obvious to reviewers."
+          ),
+          p(
+            "Identifying problematic studies is the goal of the",
+            tags$a(
+              "INSPECT-SR tool",
+              href = "https://doi.org/10.1101/2025.09.03.25334905",
+              target = "_blank"
+            ),
+            "which aims to support reviewers in identifying studies that lack veracity. One requirement
+            of INSPECT-SR is that reviewers identify retracted studies.",
+            strong("RetractionFindR"),
+            "lets reviewers readily identify retracted studies."
+          ),
+          p(""),
           h4("How to use this tool"),
           tags$ol(
-            tags$li("Export your search results as a .ris file from your reference manager
-                    or database."),
+            tags$li(
+              "Export your search results as a .ris file from your reference manager
+                    or database."
+            ),
             tags$li("Upload the .ris file using the panel on the left."),
             tags$li("Click 'Check for Retractions'."),
             tags$li("View the results in the Results tab."),
-            tags$li("Download retracted and non-retracted articles in your preferred format.")
+            tags$li(
+              "Download retracted and non-retracted articles in your preferred format."
+            )
           ),
-          p(em("Note: This tool draws on the RetractionWatch database. There may be delays
+          p(em(
+            "Note: This tool draws on the RetractionWatch database. There may be delays
                in retracted studies being listed. RetractionFindR can greatly speed up the
                task of checking for retracted studies, but manual verification of flagged
-               articles is recommended.")),
-          p("van Noorden R. More than 10,000 research papers were retracted in 2023—a new
-            record. ", em("Nature."), " 2023 Dec;624(7992):479-81.")
+               articles is recommended."
+          )),
+          p(
+            "van Noorden R. More than 10,000 research papers were retracted in 2023—a new
+            record. ",
+            em("Nature."),
+            " 2023 Dec;624(7992):479-81.",
+            tags$a(
+              "10.1038/d41586-023-03974-8",
+              href = "https://doi.org/10.1038/d41586-023-03974-8",
+              target = "_blank"
+            )
+          )
         ),
-        tabPanel("Results",
+        tabPanel(
+          "Results",
           h3("Results"),
           uiOutput("summary_text"),
           br(),
           tabsetPanel(
-            tabPanel("Retracted Articles",
+            tabPanel(
+              "Retracted Articles",
               br(),
               DT::dataTableOutput("retracted_table")
             ),
-            tabPanel("Non-Retracted Articles",
+            tabPanel(
+              "Non-Retracted Articles",
               br(),
               DT::dataTableOutput("nonretracted_table")
             )
@@ -90,7 +126,7 @@ ui <- fluidPage(
 
 server <- function(input, output, session) {
   checked <- reactiveVal(NULL)
-  sep     <- reactiveVal(NULL)
+  sep <- reactiveVal(NULL)
 
   observeEvent(input$check_btn, {
     w <- Waiter$new(
@@ -109,46 +145,63 @@ server <- function(input, output, session) {
       return()
     }
 
-    tryCatch({
-      refs   <- synthesisr::read_refs(input$ris_file$datapath)
-      result <- check_retracted(refs, retraction_data = retraction_db)
-      checked(result)
-      sep(separate_retracted(result, write_ris = FALSE))
-      updateTabsetPanel(session, "main_tabs", selected = "Results")
-    }, error = function(e) {
-      showModal(modalDialog(
-        title = "Error",
-        paste("An error occurred:", e$message),
-        easyClose = TRUE
-      ))
-    })
+    tryCatch(
+      {
+        refs <- synthesisr::read_refs(input$ris_file$datapath)
+        result <- check_retracted(refs, retraction_data = retraction_db)
+        checked(result)
+        sep(separate_retracted(result, write_ris = FALSE))
+        updateTabsetPanel(session, "main_tabs", selected = "Results")
+      },
+      error = function(e) {
+        showModal(modalDialog(
+          title = "Error",
+          paste("An error occurred:", e$message),
+          easyClose = TRUE
+        ))
+      }
+    )
   })
 
   output$summary_text <- renderUI({
     req(checked())
     n <- count_retracted(checked())
     p(strong(paste0(
-      n["n_retracted"], " retracted article",
+      n["n_retracted"],
+      " retracted article",
       if (n["n_retracted"] != 1) "s" else "",
-      " found out of ", n["n_total"], " total."
+      " found out of ",
+      n["n_total"],
+      " total."
     )))
   })
 
-  output$retracted_table <- DT::renderDataTable({
-    req(sep())
-    df <- sep()$retracted
-    df[intersect(cols_to_show, names(df))]
-  }, options = list(scrollX = TRUE, pageLength = 10), rownames = FALSE)
+  output$retracted_table <- DT::renderDataTable(
+    {
+      req(sep())
+      df <- sep()$retracted
+      df[intersect(cols_to_show, names(df))]
+    },
+    options = list(scrollX = TRUE, pageLength = 10),
+    rownames = FALSE
+  )
 
-  output$nonretracted_table <- DT::renderDataTable({
-    req(sep())
-    df <- sep()$non_retracted
-    df[intersect(cols_to_show, names(df))]
-  }, options = list(scrollX = TRUE, pageLength = 10), rownames = FALSE)
+  output$nonretracted_table <- DT::renderDataTable(
+    {
+      req(sep())
+      df <- sep()$non_retracted
+      df[intersect(cols_to_show, names(df))]
+    },
+    options = list(scrollX = TRUE, pageLength = 10),
+    rownames = FALSE
+  )
 
   output$download_retracted <- downloadHandler(
     filename = function() {
-      paste0("retracted_references", if (input$file_format == "ris") ".ris" else ".csv")
+      paste0(
+        "retracted_references",
+        if (input$file_format == "ris") ".ris" else ".csv"
+      )
     },
     content = function(file) {
       req(sep())
@@ -162,7 +215,10 @@ server <- function(input, output, session) {
 
   output$download_nonretracted <- downloadHandler(
     filename = function() {
-      paste0("non_retracted_references", if (input$file_format == "ris") ".ris" else ".csv")
+      paste0(
+        "non_retracted_references",
+        if (input$file_format == "ris") ".ris" else ".csv"
+      )
     },
     content = function(file) {
       req(sep())
