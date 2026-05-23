@@ -66,16 +66,8 @@ ui <- fluidPage(
             record (van Noorden 2023). Unfortunately, retracted articles are not always easy to identify. The methods of handling retracted studies vary across databases, and retracted articles often remain indexed in databases. The database record may include a note flagging the retraction, but this might not be obvious to reviewers."
           ),
           p(
-            "Identifying problematic studies is the goal of the",
-            tags$a(
-              "INSPECT-SR tool",
-              href = "https://doi.org/10.1101/2025.09.03.25334905",
-              target = "_blank"
-            ),
-            "which aims to support reviewers in identifying studies that lack veracity. One requirement
-            of INSPECT-SR is that reviewers identify retracted studies.",
             strong("RetractionFindR"),
-            "lets reviewers readily identify retracted studies."
+            " is here to help! This tool provides an easy way to identify retracted studies in a set of references."
           ),
           p(""),
           h4("How to use this tool"),
@@ -100,6 +92,7 @@ ui <- fluidPage(
           p(em(
             "Also note that while you can download a RIS file with retracted articles removed, this may not preserve all of the information in the original RIS file you uploaded. You may wish to import the original RIS file to your reference manager/screening tool, then manually flag or remove any retracted articles identified by RetractionFindR."
           )),
+          h3("References"),
           p(
             "van Noorden R. More than 10,000 research papers were retracted in 2023—a new
             record. ",
