@@ -5,4 +5,4 @@ RetractionFindR provides an easy way to check whether a set of references contai
 
 RetractionFindR is particularly useful for checking whether any studies you plan to screen for or include in a systematic review have been retracted. But it can be used to check any set of references.
 
-To use RetractionFindR, for now you can download/install a local version of the package from this GitHub repository (e.g., using `devtools::install_github`). But there are plans for a Shiny app version in the near future. Stay tuned!
+To use RetractionFindR, for now you can download/install a local version of the package from this GitHub repository (e.g., using `devtools::install_github`). You can also use the [Shiny app](https://mark-apps.shinyapps.io/retractionfindr/).
