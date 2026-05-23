@@ -84,10 +84,7 @@ ui <- fluidPage(
             )
           ),
           p(em(
-            "Note: This tool draws on the RetractionWatch database. There may be delays
-               in retracted studies being listed. RetractionFindR can greatly speed up the
-               task of checking for retracted studies, but manual verification of flagged
-               articles is recommended."
+            "Note: This tool draws on the RetractionWatch database. This database is updated daily, and the tool also updates daily to use the most up-to-date version of the database within the last 24 hours. However, there may be delays in retracted studies being listed on the database."
           )),
           p(em(
             "Also note that while you can download a RIS file with retracted articles removed, this may not preserve all of the information in the original RIS file you uploaded. You may wish to import the original RIS file to your reference manager/screening tool, then manually flag or remove any retracted articles identified by RetractionFindR."
