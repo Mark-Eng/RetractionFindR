@@ -5,6 +5,6 @@ account: mark-apps
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 17406757
-bundleId:
+bundleId: 12029354
 url: https://mark-apps.shinyapps.io/retractionfindr/
 version: 1
