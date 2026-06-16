@@ -1,0 +1,53 @@
+<svg width="680" height="680" viewBox="0 0 680 680" role="img" xmlns="http://www.w3.org/2000/svg">
+  <title>RetractionFindR hex badge</title>
+  <desc>A hexagonal sticker-style badge for RetractionFindR, a tool that detects retracted articles in reference lists</desc>
+  <defs>
+    <clipPath id="hexclip3">
+      <polygon points="340,68 572,200 572,480 340,612 108,480 108,200" />
+    </clipPath>
+  </defs>
+
+  <polygon points="340,68 572,200 572,480 340,612 108,480 108,200"
+           fill="#3a5a96" />
+
+  <polygon points="340,68 572,200 572,480 340,612 108,480 108,200"
+           fill="none" stroke="#7aaad8" stroke-width="6"/>
+
+  <polygon points="340,90 552,215 552,465 340,590 128,465 128,215"
+           fill="none" stroke="#7aaad8" stroke-width="1.5" stroke-dasharray="6 4" opacity="0.5"/>
+
+  <g clip-path="url(#hexclip3)">
+    <rect x="228" y="165" width="178" height="225" rx="12"
+          fill="#eef2fb" stroke="#b0bddb" stroke-width="3"/>
+
+    <rect x="250" y="193" width="134" height="10" rx="3" fill="#b0bddb"/>
+    <rect x="250" y="215" width="134" height="10" rx="3" fill="#b0bddb"/>
+    <rect x="250" y="237" width="108" height="10" rx="3" fill="#b0bddb"/>
+
+    <rect x="250" y="263" width="134" height="10" rx="3" fill="#b0bddb"/>
+    <rect x="250" y="285" width="134" height="10" rx="3" fill="#b0bddb"/>
+    <rect x="250" y="307" width="88"  height="10" rx="3" fill="#b0bddb"/>
+
+    <rect x="250" y="333" width="134" height="10" rx="3" fill="#b0bddb"/>
+    <rect x="250" y="355" width="98"  height="10" rx="3" fill="#b0bddb"/>
+
+    <circle cx="380" cy="340" r="60" fill="none" stroke="#c8d8ee" stroke-width="20"/>
+    <line x1="425" y1="385" x2="460" y2="420"
+          stroke="#c8d8ee" stroke-width="20" stroke-linecap="round"/>
+
+    <circle cx="380" cy="340" r="60" fill="none" stroke="#5a80b8" stroke-width="12"/>
+    <line x1="425" y1="385" x2="460" y2="420"
+          stroke="#5a80b8" stroke-width="12" stroke-linecap="round"/>
+
+    <circle cx="270" cy="328" r="40" fill="#c0392b" opacity="0.93"/>
+    <line x1="252" y1="310" x2="288" y2="346" stroke="white" stroke-width="6" stroke-linecap="round"/>
+    <line x1="288" y1="310" x2="252" y2="346" stroke="white" stroke-width="6" stroke-linecap="round"/>
+  </g>
+
+  <text x="340" y="470" text-anchor="middle"
+        font-family="Georgia, serif" font-size="32" font-weight="700"
+        fill="#e8eef8" letter-spacing="1">RetractionFindR</text>
+
+  <polygon points="340,68 572,200 572,480 340,612 108,480 108,200"
+           fill="none" stroke="#8ab8d8" stroke-width="3"/>
+</svg>
