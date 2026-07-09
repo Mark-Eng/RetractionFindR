@@ -1,6 +1,6 @@
 Package: retractionfindr
 Title: Checks RIS files for retracted articles
-Version: 0.1.0.0000
+Version: 0.1.0.0001
 Authors@R: 
     person("Mark", "Engelbert", , "mengelbert@3ieimpact.org", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0002-3665-1257"))
