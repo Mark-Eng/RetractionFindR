@@ -1,4 +1,3 @@
-
 #' check_retracted
 #' @description
 #' Checks a list of references for DOIs/titles that appear in the RetractionWatch
@@ -24,14 +23,24 @@
 #'
 #' @examples Add later.
 check_retracted <- function(refs, retraction_data = NULL) {
-
   # Convert all 'NA's to NAs
   refs[refs == "NA"] <- NA
 
   # Ensure required columns exist (add as NA if missing, but keep all other cols)
-  required_cols <- c('source_type', 'author', 'year', 'title', 'journal',
-                     'volume', 'issue', 'start_page', 'end_page',
-                     'abstract', 'doi', 'publisher')
+  required_cols <- c(
+    'source_type',
+    'author',
+    'year',
+    'title',
+    'journal',
+    'volume',
+    'issue',
+    'start_page',
+    'end_page',
+    'abstract',
+    'doi',
+    'publisher'
+  )
   for (col in required_cols) {
     if (is.null(refs[[col]])) refs[[col]] <- NA
   }
@@ -50,18 +59,31 @@ check_retracted <- function(refs, retraction_data = NULL) {
   # Find retracted articles by DOI or title
   refs <- refs %>%
     mutate(clean_title = str_remove_all(str_to_lower(title), "[[:punct:]]")) %>%
-    mutate(is_retracted = case_when(
-      doi %in% c(retraction_data$OriginalPaperDOI, retraction_data$RetractionDOI) ~ 1,
-      clean_title %in% retraction_data$clean_title ~ 1,
-      TRUE ~ 0
-    ))
+    mutate(clean_doi = str_extract(doi, "10\\..*")) %>%
+    mutate(
+      is_retracted = case_when(
+        clean_doi %in%
+          c(
+            retraction_data$OriginalPaperDOI,
+            retraction_data$RetractionDOI
+          ) ~ 1,
+        clean_title %in% retraction_data$clean_title ~ 1,
+        TRUE ~ 0
+      )
+    )
 
   # Look up RetractionNature and Reason for matched records (same priority order as above)
-  idx <- match(refs$doi, retraction_data$OriginalPaperDOI)
+  idx <- match(refs$clean_doi, retraction_data$OriginalPaperDOI)
   unmatched <- is.na(idx)
-  idx[unmatched] <- match(refs$doi[unmatched], retraction_data$RetractionDOI)
+  idx[unmatched] <- match(
+    refs$clean_doi[unmatched],
+    retraction_data$RetractionDOI
+  )
   unmatched <- is.na(idx)
-  idx[unmatched] <- match(refs$clean_title[unmatched], retraction_data$clean_title)
+  idx[unmatched] <- match(
+    refs$clean_title[unmatched],
+    retraction_data$clean_title
+  )
 
   refs$retraction_nature <- retraction_data$RetractionNature[idx]
   refs$retraction_reason <- retraction_data$Reason[idx]
