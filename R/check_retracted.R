@@ -18,7 +18,7 @@
 #'   Both lookup columns are \code{NA} for non-retracted records. All original
 #'   columns are preserved.
 #' @importFrom dplyr mutate case_when %>%
-#' @importFrom stringr str_remove_all str_to_lower
+#' @importFrom stringr str_remove_all str_to_lower str_extract
 #' @export
 #'
 #' @examples Add later.
